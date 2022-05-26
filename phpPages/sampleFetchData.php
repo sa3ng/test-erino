@@ -18,7 +18,7 @@ $DB_CREDENTIALS =
     "port" => 3306
 ];
 
-function fetchCandidates($db_credentials, $candidateNames, $candidateMsg)
+function fetchCandidates($db_credentials)
     {
         $conn = new mysqli(
             $db_credentials["server"],
@@ -29,26 +29,27 @@ function fetchCandidates($db_credentials, $candidateNames, $candidateMsg)
         );
     
         // preparation of prepared statement
-        $stmt = $conn->prepare("SELECT * FROM postsTBL");
+        $stmt = $conn->prepare("SELECT * FROM accTBL");
         // execution
         $stmt->execute();
         // result retrieval
         $results = $stmt->get_result();
+        //define CandidateName as an array
+        $candidateNames = array();
 
         //Fill up Candidate Names
         while($candidates = mysqli_fetch_assoc($results)){
-            array_push($candidateNames , $candidates['header']);
-            array_push($candidateMsg , $candidates['message']);
+            array_push($candidateNames , $candidates['Name']);
             
         }
+
+        return $candidateNames;
         
         $conn->close();
         $stmt->close();
     }
 
-    $candidateMsg = array();
-    $candidateNames = array();  
-   fetchCandidates($DB_CREDENTIALS, $candidateNames, $candidateMsg);
+    $candidateNames = fetchCandidates($DB_CREDENTIALS);
 
    foreach($candidateNames as $names){
        echo $names;

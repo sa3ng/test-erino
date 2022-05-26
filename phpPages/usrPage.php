@@ -1,15 +1,14 @@
 <?php
 require_once '../phpScripts/usr_page_functions.php';
+require '../phpScripts/login_processor.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <link rel="stylesheet" href="../resources/css/style.css">
-    <link rel="stylesheet" type="text/css" href="../resources/css/home.css" />
-
-    <link rel="stylesheet" href="../resources/css/voterscompanion.css">
-
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,15 +16,83 @@ require_once '../phpScripts/usr_page_functions.php';
     <title>User Page</title>
 </head>
 
+<section class="hero is-link">
+    <div class="hero-body">
+      <p class="title" style="text-align: center;">
+       Voters' Companion
+      </p>
+      <p class="subtitle" style="text-align: center;">
+       <em>Your one stop shop for voting and candidate information!</em> 
+      </p>
+    </div>
+  </section>
 
-<?php
 
-require_once 'footer-header/header.php';
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="Home.html">
+      <img src="../resources/images/VC-logo" width="112" height="25">
+    </a>
 
-?>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="Home.html">
+        Home
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link" href="Candidates.html">
+          Candidates
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            Presidential
+          </a>
+          <a class="navbar-item">
+            Vice Presidential
+          </a>
+          <a class="navbar-item">
+            Senatorial
+          </a>
+   
+        </div>
+         </div>
+
+      <a class="navbar-item" href="ForumPage.html">
+        Forums
+      </a>
+
+      
+      <a class="navbar-item" href="AboutUs.html">
+        About Us
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-link" href="userRegister.php">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button is-light" href="index.php">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <body>
-
+   
     <!-- USER INFORMATION SECTION -->
     <section class="section">
         <div class="container">
@@ -41,7 +108,7 @@ require_once 'footer-header/header.php';
                     <div class="column block">
                         <?php
                         if (isLoggedIn()) {
-                            echo "<h1 class='title is-1'>" . selectSelfNameCookie() . "</h1>";
+                            echo "<h1 class='title is-1'>" . selectSelfName($DB_CREDENTIALS) . "</h1>";
                         } else {
                             echo "<h1 class='title is-1'>User Profile</h1>";
                         }
@@ -212,7 +279,7 @@ require_once 'footer-header/header.php';
                             <div class="column has-text-centered">
                                 <h1 class="title is-1">Senator 10</h1>
                                 <figure class="image is-128x128 mx-auto">
-                                    <img class="is-rounded" src="../resources/images/usr_generic/profile-user.png" alt="usrProfilePicture">
+                                    <img class="is-rounded" src=../resources/images/usr_generic/profile-user.png" alt="usrProfilePicture">
                                 </figure>
                                 <h2 class="title is-3">Name</h2>
                                 <a href="">Learn More</a>
@@ -241,15 +308,22 @@ require_once 'footer-header/header.php';
     </section>
 
     <!-- FOOTER SECTION -->
-    <!-- Begin Footer -->
-    <footer class="footer">
-        <p>
-            <strong class="white">Voter's Companion</strong> by <a href="AboutUs.php">Team Hapon</a>
-            As a project for their software engineering class in
-            <a href="https://iacademy.edu.ph">iACADEMY</a>.
-        </p>
-    </footer>
-    <!-- End Footer -->
+    <section class="section is-small has-background-primary">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                <figure class="image"><img src="placeholder.png" alt="placeholder.png"></figure>
+            </div>
+            <div class="column container">
+                <p class="title">Contact Us!</p>
+                <p class="subtitle"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada lorem ut
+                    facilisis sodales. Maecenas ut tincidunt enim.</p>
+                <div class="right">
+                    <a class="button is-medium is-responsive">Button</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
 </body>
 
 </html>

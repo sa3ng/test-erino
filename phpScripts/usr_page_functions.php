@@ -6,17 +6,7 @@ function isLoggedIn()
     return false;
 }
 
-function selectSelfNameCookie()
-{
-    if (array_key_exists("acc_name", $_COOKIE)) {
-        return $_COOKIE["acc_name"];
-    }
-
-    return "?";
-}
-
-/*
- function selectSelfName($db_credentials)
+function selectSelfName($db_credentials)
 {
     $conn = new mysqli(
         $db_credentials["server"],
@@ -41,5 +31,4 @@ function selectSelfNameCookie()
         die;
 
     return $user["name"];
-} 
-*/
+}

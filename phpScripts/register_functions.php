@@ -1,5 +1,5 @@
 <?php
-function registerUser($db_credentials, $user_credentials, $user_db_tbl, $email_column, $user_column)
+function registerUser($db_credentials, $user_credentials)
 {
     $conn = new mysqli(
         $db_credentials['server'],
@@ -8,25 +8,22 @@ function registerUser($db_credentials, $user_credentials, $user_db_tbl, $email_c
         $db_credentials['db_name']
     );
 
-    if (checkForSimilarEmail($conn, $user_credentials, $user_db_tbl, $email_column)) {
-        // displayAlertAndRedirect("EMAIL IS ALREADY TAKEN!");
-        echo "EMAIL";
-    } else if (checkForSimilarUsername($conn, $user_credentials, $user_db_tbl, $user_column)) {
-        // displayAlertAndRedirect("USERNAME IS ALREADY TAKEN");
-        echo "USERNAME";
+    if (checkForSimilarEmail($conn, $user_credentials)) {
+        displayAlertAndRedirect("EMAIL IS ALREADY TAKEN!");
+    } else if (checkForSimilarUsername($conn, $user_credentials)) {
+        displayAlertAndRedirect("USERNAME IS ALREADY TAKEN");
     } else {
-        createAccount($conn, $user_credentials, $user_db_tbl);
-        // header("index.php"); //Home page
-        echo "OK";
+        createAccount($conn, $user_credentials);
+        header("index.php"); //Home page
     }
 
     $conn->close();
 }
 
 // HELPER FUNCTIONS
-function checkForSimilarEmail($conn, $user_credentials, $target_tbl, $target_column)
+function checkForSimilarEmail($conn, $user_credentials)
 {
-    $stmt = $conn->prepare("SELECT * FROM " .  $target_tbl . " WHERE " . $target_column . "=?");
+    $stmt = $conn->prepare("SELECT * FROM accTBL WHERE user_email=?");
     $stmt->bind_param("s", $user_credentials["email_register"]);
 
     // execution
@@ -46,9 +43,9 @@ function checkForSimilarEmail($conn, $user_credentials, $target_tbl, $target_col
     return true;
 }
 
-function checkForSimilarUsername($conn, $user_credentials, $target_tbl, $target_column)
+function checkForSimilarUsername($conn, $user_credentials)
 {
-    $stmt = $conn->prepare("SELECT * FROM " .  $target_tbl . " WHERE " . $target_column . "=?");
+    $stmt = $conn->prepare("SELECT * FROM user_table WHERE user_name=?");
     $stmt->bind_param("s", $user_credentials["user_register"]);
 
     // execution
@@ -68,9 +65,9 @@ function checkForSimilarUsername($conn, $user_credentials, $target_tbl, $target_
     return true;
 }
 
-function createAccount($conn, $user_credentials, $user_db_tbl)
+function createAccount($conn, $user_credentials)
 {
-    $stmt = $conn->prepare("INSERT INTO `" .  $user_db_tbl . "` (`user_id`, `user_email`, `user_name`, `user_password`) VALUES (NULL, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO `user_table` (`user_id`, `user_email`, `user_name`, `user_password`) VALUES (NULL, ?, ?, ?)");
     $stmt->bind_param(
         "sss",
         $user_credentials["email_register"],
